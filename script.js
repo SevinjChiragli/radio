@@ -210,18 +210,42 @@ let goods = [
     store_address: "Bakı şəhəri, Azadlıq prospekti 89",
   },
 ];
+
+const showList = (arr) => {
+  document.getElementById("result").innerHTML = "";
+  arr.forEach((item) => {
+    let li = document.createElement("li");
+    li.innerHTML = `
+<p>${item.product_name}</p>
+<p>${item.product_description}</p>
+<p>${item.product_price}</p>
+<p>${item.store_name}</p>
+<p>${item.store_address}</p>
+`;
+    document.getElementById("result").appendChild(li);
+  });
+};
+
+let radioValue;
 let btn = document.getElementById("searchButton");
 btn.addEventListener("click", (ev) => {
   let radioBtn = document.getElementsByName("product");
   let arr = Array.from(radioBtn);
   let choise;
   arr.forEach((item) => {
-    if (item.value.checked) {
-      choise = item;
+    if (item.value && item.checked) {
+      console.log(item.checked);
+
+      choise = item.value;
     }
     console.log(choise);
   });
-
+  let search = document.getElementById("search").value;
+  let filteredArr = goods.filter((item) => {
+    if (choise === "product_price") {
+      return item[choise] === Number(search);
+    }
+    return item[choise] === search;
+  });
+  showList(filteredArr);
 });
-
-
